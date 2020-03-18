@@ -33,7 +33,7 @@ namespace PublicManager.Modules
         /// </summary>
         public static Dictionary<string, BaseModuleController> ModuleDict
         {
-            get { return BaseModuleMainFormWithUIConfig.moduleDict; }
+            get { return moduleDict; }
         }
 
         /// <summary>
