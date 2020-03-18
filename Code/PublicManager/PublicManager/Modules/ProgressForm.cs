@@ -60,7 +60,7 @@ namespace PublicManager.Modules
                     }
                     catch (Exception ex)
                     {
-                        BaseModuleMainForm.writeLog(ex.ToString());
+                        BaseModuleMainFormWithUIConfig.writeLog(ex.ToString());
                     }
                 }
 

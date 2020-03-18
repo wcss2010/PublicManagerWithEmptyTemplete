@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace PublicManager.Modules.Module_B
 {
-    public class ModuleMainForm : BaseModuleMainForm
+    public class ModuleMainForm : BaseModuleMainFormWithUIConfig
     {
         public ModuleMainForm()
             : base()

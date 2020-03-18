@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace PublicManager.Modules.Module_A
 {
-    public class ModuleMainForm : BaseModuleMainForm
+    public class ModuleMainForm : BaseModuleMainFormWithUIConfig
     {
         private List<string> dutyUnitToProfessonLinks;
         /// <summary>

@@ -16,7 +16,7 @@ using System.Windows.Forms;
 
 namespace PublicManager.Modules
 {
-    public partial class BaseModuleMainForm : RibbonForm
+    public partial class BaseModuleMainFormWithUIConfig : RibbonForm
     {
         private Dictionary<string, DevExpress.XtraNavBar.NavBarGroup> pageDict = new Dictionary<string, NavBarGroup>();
         /// <summary>
@@ -33,7 +33,7 @@ namespace PublicManager.Modules
         /// </summary>
         public static Dictionary<string, BaseModuleController> ModuleDict
         {
-            get { return BaseModuleMainForm.moduleDict; }
+            get { return BaseModuleMainFormWithUIConfig.moduleDict; }
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace PublicManager.Modules
         /// </summary>
         protected MainMenuController menuController = null;
 
-        public BaseModuleMainForm()
+        public BaseModuleMainFormWithUIConfig()
         {
             InitializeComponent();
 

@@ -172,11 +172,11 @@
     <Compile Include="Modules\BaseModuleController.Designer.cs">
       <DependentUpon>BaseModuleController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Modules\BaseModuleMainForm.cs">
+    <Compile Include="Modules\BaseModuleMainFormWithUIConfig.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Modules\BaseModuleMainForm.Designer.cs">
-      <DependentUpon>BaseModuleMainForm.cs</DependentUpon>
+    <Compile Include="Modules\BaseModuleMainFormWithUIConfig.Designer.cs">
+      <DependentUpon>BaseModuleMainFormWithUIConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\Module_A\DataExport\MainView.cs">
       <SubType>UserControl</SubType>
@@ -400,6 +400,18 @@
     <Compile Include="Modules\Module_B\ProjectState\ModuleController.Designer.cs">
       <DependentUpon>ModuleController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modules\TreeViewWithSearch.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\TreeViewWithSearch.designer.cs">
+      <DependentUpon>TreeViewWithSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\BaseModuleMainFormWithNoUIConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\BaseModuleMainFormWithNoUIConfig.Designer.cs">
+      <DependentUpon>BaseModuleMainFormWithNoUIConfig.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Modules\ProgressForm.cs">
       <SubType>Form</SubType>
@@ -428,8 +440,8 @@
     <EmbeddedResource Include="Modules\BaseModuleController.resx">
       <DependentUpon>BaseModuleController.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Modules\BaseModuleMainForm.resx">
-      <DependentUpon>BaseModuleMainForm.cs</DependentUpon>
+    <EmbeddedResource Include="Modules\BaseModuleMainFormWithUIConfig.resx">
+      <DependentUpon>BaseModuleMainFormWithUIConfig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Module_A\DataExport\MainView.resx">
       <DependentUpon>MainView.cs</DependentUpon>
@@ -535,6 +547,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Module_B\ProjectState\ModuleController.resx">
       <DependentUpon>ModuleController.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\TreeViewWithSearch.resx">
+      <DependentUpon>TreeViewWithSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\BaseModuleMainFormWithNoUIConfig.resx">
+      <DependentUpon>BaseModuleMainFormWithNoUIConfig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">

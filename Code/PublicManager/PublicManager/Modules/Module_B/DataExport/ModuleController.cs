@@ -432,7 +432,7 @@ namespace PublicManager.Modules.Module_B.DataExport
                                 }
                                 catch (Exception ex)
                                 {
-                                    BaseModuleMainForm.writeLog(ex.ToString());
+                                    BaseModuleMainFormWithUIConfig.writeLog(ex.ToString());
                                 }
                             }));
                         }
