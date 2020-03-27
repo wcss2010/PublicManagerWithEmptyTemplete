@@ -126,7 +126,7 @@ namespace PublicManager.Modules
         /// <param name="val"></param>
         /// <param name="defaultString"></param>
         /// <returns></returns>
-        protected virtual T getValueWithDefault<T>(T val, T defaultVal) where T : Object
+        protected virtual T getValueWithDefault<T>(T val, T defaultVal)
         {
             return val != null ? (T)Convert.ChangeType(val.ToString(), typeof(T)) : defaultVal;
         }
