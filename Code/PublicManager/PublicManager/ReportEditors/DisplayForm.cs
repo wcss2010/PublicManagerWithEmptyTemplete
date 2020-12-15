@@ -1,4 +1,5 @@
-﻿using PublicReporterLib;
+﻿using PublicManager.DB;
+using PublicReporterLib;
 using SuperCodeFactoryUILib.Forms;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,10 @@ namespace PublicReporter
 
         public event ExportCompleteDelegate OnExportComplete;
 
+        public event DBInfoStringBuildDelegate OnBuildDBInfoString;
+
+        private DBTextDiffBuilder diffTextBuilder = new DBTextDiffBuilder();
+
         public DisplayForm()
         {
             InitializeComponent();
@@ -33,6 +38,15 @@ namespace PublicReporter
                 Directory.CreateDirectory(DisplayForm.PluginWorkDir);
             }
             catch (Exception ex) { }
+        }
+
+        public void processOnBuildDBInfoString()
+        {
+            if (OnBuildDBInfoString != null)
+            {
+                string dbFile = Path.Combine(PluginWorkDir, @"ProjectMilitaryTechnologPlanPlugin\Data\Current\static.db");                
+                OnBuildDBInfoString(this, new DBInfoStringBuildArgs(diffTextBuilder.getDBContent(dbFile)));
+            }
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -50,7 +64,7 @@ namespace PublicReporter
                              {
                                  public DateTime getLastUpdateDate()
                                  {
-                                     return ((ProjectMilitaryTechnologPlanPlugin.PluginRoot)PublicReporterLib.PluginLoader.CurrentPlugin).getLastUpdateDate();
+                                     return ((ProjectMilitaryTechnologPlanPlugin.NewPluginRoot)PublicReporterLib.PluginLoader.CurrentPlugin).getLastUpdateDate();
                                  }
                              }")
                              .CreateObject("*");
@@ -70,7 +84,7 @@ namespace PublicReporter
                              {
                                  public string getDataDir()
                                  {
-                                     ProjectMilitaryTechnologPlanPlugin.PluginRoot rootObj = (ProjectMilitaryTechnologPlanPlugin.PluginRoot)PublicReporterLib.PluginLoader.CurrentPlugin;
+                                     ProjectMilitaryTechnologPlanPlugin.NewPluginRoot rootObj = (ProjectMilitaryTechnologPlanPlugin.NewPluginRoot)PublicReporterLib.PluginLoader.CurrentPlugin;
                                      return rootObj.dataDir;
                                  }
                              }")
@@ -109,7 +123,8 @@ namespace PublicReporter
                              {
                                  public bool isAcceptExport()
                                  {
-                                     return ((ProjectMilitaryTechnologPlanPlugin.PluginRoot)PublicReporterLib.PluginLoader.CurrentPlugin).isAcceptExport();
+                                     string tttt = string.Empty;
+                                     return ((ProjectMilitaryTechnologPlanPlugin.NewPluginRoot)PublicReporterLib.PluginLoader.CurrentPlugin).isInputCompleted(ref tttt);
                                  }
                              }")
                                  .CreateObject("*");
@@ -118,12 +133,18 @@ namespace PublicReporter
 
                 if (isAcceptExport)
                 {
+                    //需要导出
+                    needExport = true;
+
                     //检查是否加载了插件
                     if (PluginLoader.CurrentPlugin != null)
                     {
                         //检查当前是否允行退出
                         if (PluginLoader.CurrentPlugin.isAcceptClose())
                         {
+                            //输出数据库概述
+                            this.processOnBuildDBInfoString();
+
                             //导出数据包
                             exportPkg(dataDir, e);
 
@@ -316,6 +337,9 @@ namespace PublicReporter
 
                     //启动插件
                     PluginLoader.CurrentPlugin.start();
+
+                    //输出数据概述
+                    this.processOnBuildDBInfoString();
                 }
                 else
                 {
@@ -348,5 +372,16 @@ namespace PublicReporter
         }
 
         public string DestZipFile { get; set; }
+    }
+
+    public delegate void DBInfoStringBuildDelegate(object sender, DBInfoStringBuildArgs args);
+    public class DBInfoStringBuildArgs : EventArgs
+    {
+        public DBInfoStringBuildArgs(string indexString)
+        {
+            this.DBInfoString = indexString;
+        }
+
+        public string DBInfoString { get; set; }
     }
 }

@@ -48,12 +48,14 @@ namespace PublicManager.Modules
 
             try
             {
-                return importDB(zipFile, catalogNumber, sourceFile, context);
+                getLocalChangeData(catalogNumber, context);
+                string resultt = importDB(zipFile, catalogNumber, sourceFile, context);
+                applyLocalChangeData(catalogNumber, context);
+                return resultt;
             }
             catch (Exception ex)
             {
-                //PublicManager.Modules.Module_A.PkgImporter.Forms.ImporterForm.writeImportLog(PublicManager.Modules.Module_A.PkgImporter.Forms.ImporterForm.errorlogFilePath, "错误", "对不起，压缩文件(" + sourceFile + ")导入时出错！请检查！Ex:" + ex.ToString());
-                BaseModuleMainFormWithNoUIConfig.writeLog(ex.ToString());
+                System.Console.WriteLine(ex.ToString());
                 return string.Empty;
             }
             finally
@@ -62,6 +64,20 @@ namespace PublicManager.Modules
                 context.Dispose();
             }
         }
+
+        /// <summary>
+        /// 应用本地的变更
+        /// </summary>
+        /// <param name="catalogNumber"></param>
+        /// <param name="context"></param>
+        protected abstract void applyLocalChangeData(string catalogNumber, Noear.Weed.DbContext context);
+
+        /// <summary>
+        /// 获取本地的变更
+        /// </summary>
+        /// <param name="catalogNumber"></param>
+        /// <param name="context"></param>
+        protected abstract void getLocalChangeData(string catalogNumber, Noear.Weed.DbContext context);
 
         /// <summary>
         /// 导入数据库
