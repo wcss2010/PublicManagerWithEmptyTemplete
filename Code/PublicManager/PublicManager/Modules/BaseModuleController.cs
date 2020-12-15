@@ -9,6 +9,9 @@ using DevExpress.XtraBars.Ribbon;
 using DevExpress.XtraBars;
 using System.IO;
 using System.Diagnostics;
+using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraGrid.Columns;
+using DevExpress.XtraGrid;
 
 namespace PublicManager.Modules
 {
@@ -354,5 +357,96 @@ namespace PublicManager.Modules
             }
             return dtTemp;
         }
+
+        /// <summary>
+        /// 获得列标题列表
+        /// </summary>
+        /// <param name="dgvViews"></param>
+        /// <returns></returns>
+        public static List<string> getDisplayColumnCaptionList(DataGridView dgvViews)
+        {
+            List<string> list = new List<string>();
+            foreach (DataGridViewColumn dgvCol in dgvViews.Columns)
+            {
+                if (dgvCol.Visible)
+                {
+                    if (string.IsNullOrEmpty(dgvCol.HeaderText))
+                    {
+                        continue;
+                    }
+
+                    list.Add(dgvCol.HeaderText);
+                }
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// 获得可显示的列的列表
+        /// </summary>
+        /// <param name="gvDetail"></param>
+        /// <returns></returns>
+        public static List<GridViewColumn> getDisplayColumnList(GridView gvDetail)
+        {
+            List<GridViewColumn> results = new List<GridViewColumn>();
+            foreach (GridColumn gcc in gvDetail.Columns)
+            {
+                if (gcc.Visible || gcc.OptionsColumn.ShowInCustomizationForm)
+                {
+                    if (string.IsNullOrEmpty(gcc.Caption) || gcc.Caption == "...")
+                    {
+                        continue;
+                    }
+
+                    results.Add(new GridViewColumn(gcc.FieldName, gcc.Caption));
+                }
+            }
+            return results;
+        }
+
+        /// <summary>
+        /// 生成主从关系的数据集
+        /// </summary>
+        /// <param name="gcGrid"></param>
+        /// <param name="masterDt"></param>
+        /// <param name="masterKeyss"></param>
+        /// <param name="detailDt"></param>
+        /// <param name="detailKeyss"></param>
+        /// <returns></returns>
+        public static DataSet makeMToSDataSet(GridControl gcGrid, DataTable mDt, string masterKeyss, DataTable tDt, string detailKeyss)
+        {
+            DataTable masterDt = mDt.Copy();
+            DataTable detailDt = tDt.Copy();
+
+            DataSet dsAll = new DataSet();
+            masterDt.TableName = "MainView";
+            detailDt.TableName = "SubjectView";
+            dsAll.Tables.Add(masterDt);
+            dsAll.Tables.Add(detailDt);
+
+            DataColumn keyColumn = dsAll.Tables[masterDt.TableName].Columns[masterKeyss];         //主键
+            DataColumn foreignColumn = dsAll.Tables[detailDt.TableName].Columns[detailKeyss];    //外键
+            //
+            //对于主从表，层次名至关重要，关系名必须和从表的层次名一致,
+            //否则从表显示的是从表的所有字段，而不是所设计的显示字段
+            //
+
+            dsAll.Relations.Add(detailDt.TableName, keyColumn, foreignColumn, false);     //从表的层次名
+            gcGrid.DataSource = dsAll.Tables[masterDt.TableName];
+            return dsAll;
+        }
+    }
+
+    public class GridViewColumn
+    {
+        public GridViewColumn(string field, string caption)
+        {
+            this.FieldName = field;
+            this.FieldCaption = caption;
+        }
+
+        public string FieldName { get; set; }
+
+        public string FieldCaption { get; set; }
     }
 }
