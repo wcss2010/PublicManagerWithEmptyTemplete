@@ -162,6 +162,8 @@
     <Compile Include="BuilderGridLocalizer.cs" />
     <Compile Include="ComboBoxObject.cs" />
     <Compile Include="DB\ConnectionManager.cs" />
+    <Compile Include="DB\DBContentBuilder.cs" />
+    <Compile Include="DB\DBTextDiffBuilder.cs" />
     <Compile Include="DB\Entitys\Catalog.cs" />
     <Compile Include="ExcelBuilder.cs" />
     <Compile Include="ExcelHelper.cs" />
