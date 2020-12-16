@@ -435,6 +435,25 @@ namespace PublicManager.Modules
             gcGrid.DataSource = dsAll.Tables[masterDt.TableName];
             return dsAll;
         }
+
+        /// <summary>
+        /// 从DataRow中取值
+        /// </summary>
+        /// <typeparam name="E"></typeparam>
+        /// <param name="dr"></param>
+        /// <param name="name"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public static E getValueWithDataRow<E>(DataRow dr, string name, E defaultValue)
+        {
+            E returnContent = defaultValue;
+            try
+            {
+                returnContent = dr[name] != null ? (E)Convert.ChangeType(dr[name].ToString(), typeof(E)) : defaultValue;
+            }
+            catch (Exception ex) { }
+            return returnContent;
+        }
     }
 
     public class GridViewColumn
